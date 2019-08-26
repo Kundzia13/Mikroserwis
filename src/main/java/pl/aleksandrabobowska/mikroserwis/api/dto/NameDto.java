@@ -15,6 +15,10 @@ public class NameDto {
     private Long id;
     private String name;
 
+    /**
+     * @param entity
+     * @return item's id and name
+     */
     public static NameDto fromEntity(NameEntity entity) {
         return new NameDto(entity.getId(), entity.getName());
     }

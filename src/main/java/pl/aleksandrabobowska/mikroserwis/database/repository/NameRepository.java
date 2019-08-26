@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface NameRepository extends JpaRepository<NameEntity, Long> {
-
+    /**
+     * @return all added names
+     */
     List<NameEntity> findAll();
 }

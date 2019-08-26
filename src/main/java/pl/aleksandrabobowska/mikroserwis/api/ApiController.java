@@ -29,6 +29,10 @@ public class ApiController {
         this.nameRepository = nameRepository;
     }
 
+    /**
+     * @param nameDto
+     * @return id and name of the added item
+     */
     @PostMapping(Mappings.ADD_NEW_NAME)
     public ResponseEntity<NameDto> addNewName(@RequestBody NameDto nameDto) {
         log.info("POST /{}, content: {}", Mappings.ADD_NEW_NAME, nameDto.toString());
@@ -39,16 +43,20 @@ public class ApiController {
         nameEntity.setName(nameDto.getName());
 
         nameRepository.save(nameEntity);
-        return ResponseEntity.ok()
+        return ResponseEntity.status(200)
                 .body(NameDto.fromEntity(nameEntity));
     }
+
+    /**
+     * @return list of all added names
+     */
     @GetMapping(Mappings.LIST_ALL_NAMES)
     public ResponseEntity<ResponseDto> listAll() {
         log.info("GET /{}", Mappings.LIST_ALL_NAMES);
         List<NameDto> nameDtoList = new ArrayList<>();
         nameRepository.findAll().forEach(e ->
                 nameDtoList.add(NameDto.fromEntity(e)));
-        return ResponseEntity.status(200)
+        return ResponseEntity.ok()
                 .body(ResponseDto.builder().names(nameDtoList).build());
     }
 }
